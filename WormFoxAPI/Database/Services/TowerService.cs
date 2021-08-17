@@ -18,9 +18,9 @@ namespace WormFoxAPI.Database.Services
             _towers = database.GetCollection<Tower>(settings.TowerCollection);
         }
 
-        public IEnumerable<Tower> GetAll()
+        public List<Tower> GetAll()
         {
-            return _towers.Find(tower => true).ToEnumerable();
+            return _towers.Find(tower => true).ToList();
         }
 
         public Tower GetOne(string id)

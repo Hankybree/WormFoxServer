@@ -8,7 +8,7 @@ namespace WormFoxAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TowerController
+    public class TowerController : ControllerBase
     {
         private readonly TowerService _towerService;
 
@@ -18,9 +18,30 @@ namespace WormFoxAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Tower> GetAll()
+        public ActionResult<List<Tower>> GetAll()
         {
             return _towerService.GetAll();
-        } 
+        }
+
+        [HttpGet("{id:length(24)}")]
+        public ActionResult<Tower> GetOne(string id)
+        {
+            Tower tower = _towerService.GetOne(id);
+
+            if (tower == null)
+            {
+                return NotFound();
+            }
+
+            return tower;
+        }
+
+        [HttpPost]
+        public IActionResult Insert(Tower tower)
+        {
+            _towerService.Insert(tower);
+
+            return CreatedAtRoute("tower", new { id = tower.Id.ToString(), tower });
+        }
     }
 }
